@@ -5,6 +5,7 @@
 // @description  for google
 // @author       Dmitriy_Petrov
 // @match        https://www.google.com/*
+// @match        https://auto.ru/*
 // @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
 // @grant        none
 // ==/UserScript==
@@ -28,8 +29,14 @@ if (btnK !== undefined) {
 
 		}
 	},500)
-
-	} else {
+	} else if (location.hostname == "auto.ru") {
+		console.log("Мы на auto.ru");
+		let index = getRandom(0, links.length)
+		setTimeout(()=> {
+			if (links[index].href.indexOf("auto.ru") !== -1)
+					links[index].click();
+					}, getRandom(2000, 3000))
+	}else {
 		let nextGooglePage = true;
 		for (let i = 0; i < links.length; i++) {
 			if (links[i].href.includes("auto.ru")) {
@@ -42,14 +49,14 @@ if (btnK !== undefined) {
 
 				break;
 			}
-		} 
+		}
 		if(document.querySelector(".YyVfkd").innerText == "5") {
-			 nextGooglePage = false;
-			 location.href = "https://www.google.com/";
+			nextGooglePage = false;
+			location.href = "https://www.google.com/";
 		}
 		if (nextGooglePage) {
 			setTimeout(()=>{
-			pnnext.click();
+				pnnext.click();
 			},getRandom(3000, 7000));
 		}
 	}
